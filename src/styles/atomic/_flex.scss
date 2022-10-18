@@ -1,0 +1,36 @@
+$positions: start, center, end, between, around, evenly;
+
+@each $position in $positions {
+    .justify {
+        &-#{$position} {
+            @if $position == center {
+                -webkit-justify-content: $position;
+                justify-content: $position;
+            } @else if $position == end or $position == start {
+                -webkit-justify-content: flex-#{$position};
+                justify-content: flex-#{$position};
+            } @else {
+                -webkit-justify-content: space-#{$position};
+                justify-content: space-#{$position};
+            }
+        }
+    }
+
+    .items {
+        &-#{$position} {
+            @if $position == center {
+                align-items: $position;
+            } @else if $position == end or $position == start {
+                align-items: flex-#{$position};
+            }
+        }
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
