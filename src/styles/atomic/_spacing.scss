@@ -1,0 +1,54 @@
+$spacing: 4;
+$spacingItems: 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20;
+
+@each $item in $spacingItems {
+  $finalValue: ($spacing * $item) + px;
+
+  .p-#{$item} {
+    padding: $finalValue !important;
+  }
+  .pl-#{$item} {
+    padding-left: $finalValue !important;
+  }
+  .pr-#{$item} {
+    padding-right: $finalValue !important;
+  }
+  .pt-#{$item} {
+    padding-top: $finalValue !important;
+  }
+  .pb-#{$item} {
+    padding-bottom: $finalValue !important;
+  }
+  .py-#{$item} {
+    padding-bottom: $finalValue !important;
+    padding-top: $finalValue !important;
+  }
+  .px-#{$item} {
+    padding-right: $finalValue !important;
+    padding-left: $finalValue !important;
+  }
+
+  .m-#{$item} {
+    margin: $finalValue !important;
+  }
+  .mt-#{$item} {
+    margin-top: $finalValue !important;
+  }
+  .mr-#{$item} {
+    margin-right: $finalValue !important;
+  }
+  .mb-#{$item} {
+    margin-bottom: $finalValue !important;
+  }
+  .ml-#{$item} {
+    margin-left: $finalValue !important;
+  }
+  .my-#{$item} {
+    margin-top: $finalValue !important;
+    margin-bottom: $finalValue !important;
+  }
+  .mx-#{$item} {
+    margin-right: $finalValue !important;
+    margin-left: $finalValue !important;
+  }
+}

@@ -1,0 +1,16 @@
+.Header {
+    width: 80%;
+
+    &__wrapper {
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        background-color: #ffffff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    &__active-link {
+        color: var(--color-default);
+        border-bottom: 2px solid var(--color-primary);
+    }
+}

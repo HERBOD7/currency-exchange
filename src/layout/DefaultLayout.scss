@@ -1,0 +1,12 @@
+.DefaultLayout {
+    height: 100vh;
+
+    &__wrapper {
+        background-color: #f2f3f2;
+        height: calc(100vh - 61px);
+    }
+
+    &__main {
+        width: 80%;
+    }
+}
