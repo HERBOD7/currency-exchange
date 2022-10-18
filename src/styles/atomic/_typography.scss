@@ -1,0 +1,34 @@
+
+$colors: ('primary', 'accent', 'warn', 'default', 'header');
+$alignments: left, right, center;
+$weights: 400, 700;
+$sizes:('page-title' 3,
+        'section-title' 1.5,
+        'body-text'  1,
+);
+
+.color {
+    @each $color in $colors {
+        &-#{$color} {
+            color: var(--color-#{$color});
+        }
+    }
+}
+
+@each $name, $size in $sizes {
+    .font-#{$name} {
+        font-size : $size + rem;
+    }
+}
+
+@each $alignment in $alignments {
+    .ta-#{$alignment} {
+        text-align: $alignment;
+    }
+}
+  
+@each $weight in $weights {
+    .fw-#{$weight} {
+        font-weight: $weight;
+    }
+}
