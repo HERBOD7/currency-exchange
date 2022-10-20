@@ -6,6 +6,7 @@ import './DefaultLayout.scss';
 const DefaultLayout = () => {
   return (
     <div className="DefaultLayout">
+      {/* TODO: modular pages */}
       <Header />
       <main className="flex justify-center DefaultLayout__wrapper">
         <div className="DefaultLayout__main py-10">

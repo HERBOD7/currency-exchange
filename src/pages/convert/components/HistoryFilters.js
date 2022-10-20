@@ -42,6 +42,7 @@ const HistoryFilters = (props) => {
           <option value="30">30 days</option>
         </select>
       </div>
+      {/* TODO: Chart */}
       <div className="flex items-end Convert__view">
         <div className="mr-4">
           <input type="radio" id="table" name="view" value="table" />

@@ -25,6 +25,7 @@ const ExchangeForm = (props) => {
         <label htmlFor="amount" className="color-header font-body-text">
           Amount
         </label>
+        {/* TODO: Create input and button components */}
         <input
           name="amount"
           id="amount"
@@ -46,7 +47,6 @@ const ExchangeForm = (props) => {
           className="Convert__form-input Convert__form-input-txt py-1"
           value={fromValue}
           maxLength="3"
-          // ToDo: check toUpperCase is necessary or not
           onChange={(e) => setFromValue(e.target.value.toUpperCase())}
         />
       </div>
@@ -66,7 +66,6 @@ const ExchangeForm = (props) => {
           className="Convert__form-input Convert__form-input-txt py-1"
           value={toValue}
           maxLength="3"
-          // ToDo: check toUpperCase is necessary or not
           onChange={(e) => setToValue(e.target.value.toUpperCase())}
         />
       </div>
