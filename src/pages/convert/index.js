@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import storage from '../../helper/storage';
 import ExchangeForm from './components/ExchangeForm';
 import HistoryTable from './components/HistoryTable';
 import StatisticTable from './components/StatisticTable';
@@ -14,6 +15,24 @@ const Convert = (props) => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
+  const storeExchangeHistory = (from, to, amount) => {
+    const exchange = [
+      {
+        fromCurrency: from,
+        toCurrency: to,
+        amountCurrency: amount,
+        date: new Date().toLocaleString(),
+      },
+    ];
+    if (storage.getItem('history')) {
+      const history = storage.getItem('history');
+      history.push(...exchange);
+      storage.setItem('history', history);
+    } else {
+      storage.setItem('history', exchange);
+    }
+  };
+
   //TODO: form validation
   const fetchExchange = (amount, from, to) => {
     fetch(
@@ -28,9 +47,11 @@ const Convert = (props) => {
           data.result
         );
         const rate = data.info.rate;
+        const queryInfo = data.query;
         setResultValue(formattedResult);
         setRateValue(rate);
-        setQuery(data.query);
+        setQuery(queryInfo);
+        storeExchangeHistory(queryInfo.from, queryInfo.to, queryInfo.amount);
       });
   };
 
@@ -52,13 +73,16 @@ const Convert = (props) => {
     fetchExchangeHistory(startDate, endDate, from, to);
   };
 
-  const changeDuration = (start, end) => {
-    setStartDate(start);
-    setEndDate(end);
-    if (query) {
-      fetchExchangeHistory(start, end, query.from, query.to);
-    }
-  };
+  const changeDuration = useCallback(
+    (start, end) => {
+      setStartDate(start);
+      setEndDate(end);
+      if (query) {
+        fetchExchangeHistory(start, end, query.from, query.to);
+      }
+    },
+    [query]
+  );
 
   return (
     <div>
@@ -82,7 +106,7 @@ const Convert = (props) => {
         <div>
           {rates && (
             <div className="mt-4 flex justify-between">
-              <HistoryTable rates={rates} />
+              <HistoryTable rates={rates} currency={query.to} />
               <StatisticTable ratesList={rates} currency={query.to} />
             </div>
           )}

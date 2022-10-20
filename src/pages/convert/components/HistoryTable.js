@@ -1,18 +1,24 @@
 import React from 'react';
 
 const HistoryTable = (props) => {
-  const { rates } = props;
+  const { rates, currency } = props;
+
+  const changeDateFormat = (date) => {
+    const now = new Date(date);
+    return now.toLocaleDateString();
+  };
+
   const TableRows = () => {
     const ratesKey = Object.keys(rates);
-    const rowList = ratesKey.map((rate, index) => {
+    const rowList = ratesKey.map((date, index) => {
+      const localeDate = changeDateFormat(date);
+      const rate = rates[date][currency];
       return (
         <tr key={index}>
           <td className="pl-3 py-3 ta-left font-body-text color-default">
-            {rate.split('-').join('/')}
+            {localeDate}
           </td>
-          <td className="py-3 ta-left font-body-text color-default">
-            {rates[rate].USD}
-          </td>
+          <td className="py-3 ta-left font-body-text color-default">{rate}</td>
         </tr>
       );
     });
