@@ -8,7 +8,7 @@ const DefaultLayout = () => {
     <div className="DefaultLayout">
       <Header />
       <main className="flex justify-center DefaultLayout__wrapper">
-        <div className="flex items-center DefaultLayout__main">
+        <div className="DefaultLayout__main py-10">
           <Outlet />
         </div>
       </main>
