@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ExchangeForm from './components/ExchangeForm';
 import HistoryTable from './components/HistoryTable';
 import StatisticTable from './components/StatisticTable';
