@@ -15,9 +15,9 @@ const Convert = (props) => {
   const [rates, setRates] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  // const [fromParam, setFromParam] = useState();
-  // const [toParam, setToParam] = useState();
-  // const [amountParam, setAmountParam] = useState();
+  const [fromParam, setFromParam] = useState('EUR');
+  const [toParam, setToParam] = useState('USD');
+  const [amountParam, setAmountParam] = useState(1);
   const [searchParams] = useSearchParams();
 
   const storeExchangeHistory = (from, to, amount) => {
@@ -100,9 +100,9 @@ const Convert = (props) => {
       const amount = searchParams.get('amount');
       const from = searchParams.get('from');
       const to = searchParams.get('to');
-      // setFromParam(from);
-      // setToParam(to);
-      // setAmountParam(amount);
+      setFromParam(from);
+      setToParam(to);
+      setAmountParam(amount);
       convertCurrency(amount, from, to);
     }
   }, [searchParams, startDate, endDate, convertCurrency]);
@@ -110,7 +110,12 @@ const Convert = (props) => {
   return (
     <div>
       <h2 className="font-page-title color-default">I want to convert</h2>
-      <ExchangeForm submitForm={convertCurrency} />
+      <ExchangeForm
+        submitForm={convertCurrency}
+        fromCurrency={fromParam}
+        toCurrency={toParam}
+        amountCurrency={amountParam}
+      />
       {resultValue ? (
         <ExchangeResult
           amount={query.amount}

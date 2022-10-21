@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as ChangeIcon } from '../../../assets/icons/change.svg';
 
 const ExchangeForm = (props) => {
-  const { submitForm } = props;
-  const [amountValue, setAmountValue] = useState(1);
-  const [fromValue, setFromValue] = useState('EUR');
-  const [toValue, setToValue] = useState('USD');
+  const { submitForm, fromCurrency, toCurrency, amountCurrency } = props;
+  const [amountValue, setAmountValue] = useState();
+  const [fromValue, setFromValue] = useState();
+  const [toValue, setToValue] = useState();
+
+  useEffect(() => {
+    setAmountValue(amountCurrency);
+    setFromValue(fromCurrency);
+    setToValue(toCurrency);
+  }, [fromCurrency, toCurrency, amountCurrency]);
 
   const revertCurrencies = (e) => {
     e.preventDefault();
@@ -45,7 +51,7 @@ const ExchangeForm = (props) => {
           id="from"
           type="text"
           className="Convert__form-input Convert__form-input-txt py-1"
-          value={fromValue}
+          defaultValue={fromValue}
           maxLength="3"
           onChange={(e) => setFromValue(e.target.value.toUpperCase())}
         />
@@ -64,7 +70,7 @@ const ExchangeForm = (props) => {
           type="text"
           id="to"
           className="Convert__form-input Convert__form-input-txt py-1"
-          value={toValue}
+          defaultValue={toValue}
           maxLength="3"
           onChange={(e) => setToValue(e.target.value.toUpperCase())}
         />
