@@ -86,13 +86,13 @@ const Convert = (props) => {
 
   const changeDuration = useCallback(
     (start, end) => {
-      setStartDate(start);
-      setEndDate(end);
-      if (query) {
+      if (query && (start !== startDate || !startDate)) {
         fetchExchangeHistory(start, end, query.from, query.to);
       }
+      setStartDate(start);
+      setEndDate(end);
     },
-    [query]
+    [query, startDate]
   );
 
   useEffect(() => {
