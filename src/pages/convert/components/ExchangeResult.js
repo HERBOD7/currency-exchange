@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatCurrency } from '../../../helper/formatNumber';
 
 const ExchangeResult = (props) => {
   const { amount, fromCurrency, toCurrency, result, rate } = props;
@@ -13,7 +14,7 @@ const ExchangeResult = (props) => {
       <div className="font-page-title flex justify-center">
         <p className="color-header">
           {/* TODO: format currency */}
-          {amount}
+          {formatCurrency(amount)}
           <span className="mx-2">{fromCurrency}</span>=
         </p>
         <p className="color-accent">

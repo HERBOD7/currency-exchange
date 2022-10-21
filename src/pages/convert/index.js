@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { formatCurrency } from '../../helper/formatNumber';
 import storage from '../../helper/storage';
 import ExchangeForm from './components/ExchangeForm';
 import HistoryTable from './components/HistoryTable';
@@ -74,9 +75,7 @@ const Convert = (props) => {
         )
           .then((response) => response.json())
           .then((data) => {
-            const formattedResult = new Intl.NumberFormat('en-IN').format(
-              data.result
-            );
+            const formattedResult = formatCurrency(data.result);
             const rate = data.info.rate;
             const queryInfo = data.query;
             setResultValue(formattedResult);
