@@ -18,7 +18,7 @@ const Convert = (props) => {
   const [fromParam, setFromParam] = useState('EUR');
   const [toParam, setToParam] = useState('USD');
   const [amountParam, setAmountParam] = useState(1);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const storeExchangeHistory = (from, to, amount) => {
     const exchange = [
@@ -37,6 +37,17 @@ const Convert = (props) => {
       storage.setItem('history', exchange);
     }
   };
+
+  const setQueryParams = useCallback(
+    (from, to, amount) => {
+      setSearchParams({
+        amount: amount,
+        from: from,
+        to: to,
+      });
+    },
+    [setSearchParams]
+  );
 
   //TODO: form validation
   const fetchExchangeHistory = (start, end, from, to) => {
@@ -76,12 +87,21 @@ const Convert = (props) => {
               queryInfo.to,
               queryInfo.amount
             );
+            setQueryParams(queryInfo.from, queryInfo.to, queryInfo.amount);
           });
       };
-      fetchExchange(amount, from, to);
-      fetchExchangeHistory(startDate, endDate, from, to);
+      if (
+        from !== query?.from ||
+        to !== query?.to ||
+        Number(amount) !== query?.amount
+      ) {
+        fetchExchange(amount, from, to);
+        if (from !== query?.from || to !== query?.to) {
+          fetchExchangeHistory(startDate, endDate, from, to);
+        }
+      }
     },
-    [endDate, startDate]
+    [endDate, query, setQueryParams, startDate]
   );
 
   const changeDuration = useCallback(
