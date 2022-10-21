@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import storage from '../../../helper/storage';
 import { ReactComponent as ViewIcon } from '../../../assets/icons/visibility.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/icons/delete.svg';
@@ -35,10 +36,13 @@ const ConversionTable = (props) => {
           </td>
           <td className="pr-3 History__table-actions-wrapper">
             <div className="History__table-actions justify-between">
-              <button className="History__table-action flex items-center font-body-text color-primary">
+              <Link
+                to={`/?amount=${exchange.amountCurrency}&from=${exchange.fromCurrency}&to=${exchange.toCurrency}`}
+                className="History__table-action flex items-center font-body-text color-primary"
+              >
                 <ViewIcon className="mr-1" />
                 View
-              </button>
+              </Link>
               <button
                 className="History__table-action flex items-center font-body-text color-warn"
                 onClick={() => deleteExchangeHistory(index)}
