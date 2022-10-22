@@ -37,6 +37,7 @@ const ExchangeForm = (props) => {
           id="amount"
           type="number"
           min="1"
+          placeholder="1"
           className="Convert__form-input py-1"
           defaultValue={amountValue}
           onChange={(e) => setAmountValue(e.target.value)}
@@ -50,6 +51,7 @@ const ExchangeForm = (props) => {
           name="from"
           id="from"
           type="text"
+          placeholder="EUR"
           className="Convert__form-input Convert__form-input-txt py-1"
           defaultValue={fromValue}
           maxLength="3"
@@ -69,6 +71,7 @@ const ExchangeForm = (props) => {
           name="to"
           type="text"
           id="to"
+          placeholder="USD"
           className="Convert__form-input Convert__form-input-txt py-1"
           defaultValue={toValue}
           maxLength="3"
