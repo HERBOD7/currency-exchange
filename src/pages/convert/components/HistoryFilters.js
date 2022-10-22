@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const HistoryFilters = (props) => {
-  const { changeHistoryDuration } = props;
+  const { changeHistoryDuration, changeHistoryView } = props;
   const [historyDuration, setHistoryDuration] = useState(7);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -9,6 +9,11 @@ const HistoryFilters = (props) => {
   const changeDuration = (e) => {
     const selectedDuration = e.target.value;
     setHistoryDuration(selectedDuration);
+  };
+
+  const changeView = (e) => {
+    const value = e.target.value;
+    changeHistoryView(value);
   };
 
   useEffect(() => {
@@ -42,10 +47,15 @@ const HistoryFilters = (props) => {
           <option value="30">30 days</option>
         </select>
       </div>
-      {/* TODO: Chart */}
-      <div className="flex items-end Convert__view">
+      <div className="flex items-end Convert__view" onChange={changeView}>
         <div className="mr-4">
-          <input type="radio" id="table" name="view" value="table" />
+          <input
+            type="radio"
+            id="table"
+            name="view"
+            value="table"
+            defaultChecked
+          />
           <label htmlFor="table">Table</label>
         </div>
 

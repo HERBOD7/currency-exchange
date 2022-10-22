@@ -7,6 +7,7 @@ import HistoryTable from './components/HistoryTable';
 import StatisticTable from './components/StatisticTable';
 import ExchangeResult from './components/ExchangeResult';
 import HistoryFilters from './components/HistoryFilters';
+import SparklinesChart from './components/SparklineChart';
 import './Convert.scss';
 
 const Convert = (props) => {
@@ -16,10 +17,11 @@ const Convert = (props) => {
   const [rates, setRates] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [fromParam, setFromParam] = useState('EUR');
-  const [toParam, setToParam] = useState('USD');
-  const [amountParam, setAmountParam] = useState(1);
+  const [fromParam, setFromParam] = useState();
+  const [toParam, setToParam] = useState();
+  const [amountParam, setAmountParam] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [historyView, setHistoryView] = useState('table');
 
   const storeExchangeHistory = (from, to, amount) => {
     const exchange = [
@@ -65,6 +67,7 @@ const Convert = (props) => {
   };
 
   const convertCurrency = useCallback(
+    // TODO: add placeholder loading
     (amount, from, to) => {
       const fetchExchange = (amount, from, to) => {
         fetch(
@@ -126,6 +129,10 @@ const Convert = (props) => {
     }
   }, [searchParams, startDate, endDate, convertCurrency]);
 
+  const changeConversionHistoryView = (view) => {
+    setHistoryView(view);
+  };
+
   return (
     <div>
       <h2 className="font-page-title color-default">I want to convert</h2>
@@ -151,15 +158,23 @@ const Convert = (props) => {
         <p className="font-section-title color-default fw-700">
           Exchange History
         </p>
-        <HistoryFilters changeHistoryDuration={changeDuration} />
+        <HistoryFilters
+          changeHistoryDuration={changeDuration}
+          changeHistoryView={changeConversionHistoryView}
+        />
         <div>
-          {rates && (
+          {rates && historyView === 'table' && (
             <div className="mt-4 flex justify-between">
-              <HistoryTable rates={rates} currency={query.to} />
-              <StatisticTable ratesList={rates} currency={query.to} />
+              <HistoryTable rates={rates} currency={query?.to} />
+              <StatisticTable ratesList={rates} currency={query?.to} />
             </div>
           )}
         </div>
+        {rates && historyView === 'chart' && (
+          <div className="mt-5">
+            <SparklinesChart values={rates} currency={query?.to} />
+          </div>
+        )}
       </div>
     </div>
   );

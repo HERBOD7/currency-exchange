@@ -13,7 +13,6 @@ const ExchangeResult = (props) => {
     <div className="mt-10">
       <div className="font-page-title flex justify-center">
         <p className="color-header">
-          {/* TODO: format currency */}
           {formatCurrency(amount)}
           <span className="mx-2">{fromCurrency}</span>=
         </p>
