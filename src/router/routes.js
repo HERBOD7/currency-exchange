@@ -1,14 +1,6 @@
-import loadable from '@loadable/component';
+import convertRoutes from '../modules/convert/routes';
+import historyRoutes from '../modules/history/routes';
 
-const routes = [
-  {
-    path: '/',
-    component: loadable(() => import('../pages/convert')),
-  },
-  {
-    path: '/history',
-    component: loadable(() => import('../pages/history')),
-  },
-];
+const routes = [...convertRoutes, ...historyRoutes];
 
 export default routes;
