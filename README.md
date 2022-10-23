@@ -1,70 +1,111 @@
-# Getting Started with Create React App
+<p align="center">
+  <img src="https://iili.io/DqDx6J.png" />
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Currency Exchange
 
-## Available Scripts
+The Currency Exchange web application, converts currencies and stores conversion history.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `yarn start`
+- [Installation](#installation)
+- [Tech Stack](#tech-stack)
+- [Contributing](#contributing)
+- [API Reference](#api-reference)
+- [Features](#features)
+- [Optimizations](#optimizations)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Run the command to install all dependencies:
 
-### `yarn test`
+```bash
+yarn install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+and run the below command to start the project on development mode:
 
-### `yarn build`
+```bash
+yarn start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can run the docker command on your machine if you have Docker installed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+docker-compose up
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Open [http://localhost:3000](http://localhost:3000) to view it in a browser.
 
-### `yarn eject`
+- The page will reload if you make edits.
+- You will also see any lint errors in the console.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Tech Stack
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Client:** React, Sass, React Sparkline
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contributing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### structure:
 
-## Learn More
+It has `Modular` structure (dividing a program's functions into independent parts) that allows it to:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- easy to follow and read code
+- easy to debug and there are fewer places where bugs appear
+- easy to refactor
+- easy to manage and maintain
+- etc ...
+  Each module includes its own components, routes, styles, and pages that are used in the module pages.
+  As a project layout, all pages render into the `DefaultLayout`.
+  The main components directory contains shared components that can be used throughout the project.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### style:
 
-### Code Splitting
+The project used BEM methodology to organize and understand styles easier for specific styles and used Atomic methodology to break down shared styles into pieces.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### git:
 
-### Analyzing the Bundle Size
+Feature Branch Workflow used to avoid breaking code in main branch and make possible to create pull request and discus about changes. regarding commit messages, I used the [commit linter](https://commitlint.js.org/#/) to help clarify them.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## API Reference
 
-### Making a Progressive Web App
+The API documentation is available on [exchangerate](https://exchangerate.host/#/docs), but the following APIs are used in the project:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### Get conversion rate
 
-### Advanced Configuration
+```http
+  GET /convert
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Parameter | Type     | Description                                 |
+| :-------- | :------- | :------------------------------------------ |
+| `from`    | `string` | **Required**. currency like to convert from |
+| `to`      | `string` | **Required**. currecnt like to convert to   |
+| `amount`  | `number` | **Optional**. the amount to be convert      |
 
-### Deployment
+#### Get conversion history
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```http
+  GET /timeseries
+```
 
-### `yarn build` fails to minify
+| Parameter    | Type     | Description                                               |
+| :----------- | :------- | :-------------------------------------------------------- |
+| `start_date` | `string` | **Required**. the start date of your preferred timeframe. |
+| `end_date`   | `string` | **Required**. the end date of your preferred timeframe.   |
+| `base`       | `string` | **Optional**. base currency.                              |
+| `symbols`    | `string` | **Optional**. currencies list to limit output currency.   |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Features
+
+- Cryptocurrencies changes rate in 24
+- Cryptocurrencies Trading view chart
+- Light/dark mode toggle
+- Autocomplete currencies input
+- Toast error
+
+## Optimizations
+
+- Mobile view
+- Form validation
+- Create inputs and buttons components
