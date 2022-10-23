@@ -54,7 +54,7 @@ const ExchangeForm = (props) => {
           type="text"
           placeholder="EUR"
           className="Convert__form-input Convert__form-input-txt py-1"
-          defaultValue={fromValue}
+          value={fromValue}
           maxLength="3"
           onChange={(e) => setFromValue(e.target.value.toUpperCase())}
         />
@@ -74,7 +74,7 @@ const ExchangeForm = (props) => {
           id="to"
           placeholder="USD"
           className="Convert__form-input Convert__form-input-txt py-1"
-          defaultValue={toValue}
+          value={toValue}
           maxLength="3"
           onChange={(e) => setToValue(e.target.value.toUpperCase())}
         />
