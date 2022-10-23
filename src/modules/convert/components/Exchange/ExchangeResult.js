@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { formatCurrency } from '../../../helper/formatNumber';
+import { formatCurrency } from '../../../../helper/formatNumber';
 
 const ExchangeResult = (props) => {
   const { amount, fromCurrency, toCurrency, result, rate } = props;
