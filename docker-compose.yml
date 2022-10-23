@@ -1,0 +1,12 @@
+
+services:
+  app:
+    container_name: currency-exchange
+    image: dev-app
+    build:
+      context: .
+      target: dev
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
