@@ -1,5 +1,5 @@
 import React from 'react';
-import ConversionTable from './components/ConversionTable';
+import ConversionTable from '../components/ConversionTable';
 import './History.scss';
 
 const History = (props) => {

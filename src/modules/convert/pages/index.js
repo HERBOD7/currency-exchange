@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { formatCurrency } from '../../helper/formatNumber';
-import storage from '../../helper/storage';
-import ExchangeForm from './components/ExchangeForm';
-import HistoryTable from './components/HistoryTable';
-import StatisticTable from './components/StatisticTable';
-import ExchangeResult from './components/ExchangeResult';
-import HistoryFilters from './components/HistoryFilters';
-import SparklinesChart from './components/SparklineChart';
+import { formatCurrency } from '../../../helper/formatNumber';
+import storage from '../../../helper/storage';
+import ExchangeForm from '../components/ExchangeForm';
+import HistoryTable from '../components/HistoryTable';
+import StatisticTable from '../components/StatisticTable';
+import ExchangeResult from '../components/ExchangeResult';
+import HistoryFilters from '../components/HistoryFilters';
+import SparklinesChart from '../components/SparklineChart';
 import './Convert.scss';
 
 const Convert = (props) => {
@@ -78,6 +78,7 @@ const Convert = (props) => {
         )
           .then((response) => response.json())
           .then((data) => {
+            // TODO: show invalid result
             const formattedResult = formatCurrency(data.result);
             const rate = data.info.rate;
             const queryInfo = data.query;
