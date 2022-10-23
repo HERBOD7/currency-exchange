@@ -22,6 +22,7 @@ const Convert = (props) => {
   const [amountParam, setAmountParam] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [historyView, setHistoryView] = useState('table');
+  const [responseIsLoading, setResponseIsLoading] = useState(false);
 
   const storeExchangeHistory = (from, to, amount) => {
     const exchange = [
@@ -91,6 +92,10 @@ const Convert = (props) => {
               queryInfo.amount
             );
             setQueryParams(queryInfo.from, queryInfo.to, queryInfo.amount);
+            setResponseIsLoading(false);
+          })
+          .catch((error) => {
+            setResponseIsLoading(false);
           });
       };
       if (
@@ -98,6 +103,7 @@ const Convert = (props) => {
         to !== query?.to ||
         Number(amount) !== query?.amount
       ) {
+        setResponseIsLoading(true);
         fetchExchange(amount, from, to);
         if (from !== query?.from || to !== query?.to) {
           fetchExchangeHistory(startDate, endDate, from, to);
@@ -142,6 +148,7 @@ const Convert = (props) => {
         fromCurrency={fromParam}
         toCurrency={toParam}
         amountCurrency={amountParam}
+        isLoading={responseIsLoading}
       />
       {resultValue ? (
         <ExchangeResult
