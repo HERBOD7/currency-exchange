@@ -2,12 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { formatCurrency } from '../../../helper/formatNumber';
 import storage from '../../../helper/storage';
-import ExchangeForm from '../components/ExchangeForm';
-import HistoryTable from '../components/HistoryTable';
-import StatisticTable from '../components/StatisticTable';
-import ExchangeResult from '../components/ExchangeResult';
-import HistoryFilters from '../components/HistoryFilters';
-import SparklinesChart from '../components/SparklineChart';
+import Exchange from '../components/Exchange';
+import ExchangeHistory from '../components/ExchangeHistory';
 import './Convert.scss';
 
 const Convert = (props) => {
@@ -21,8 +17,8 @@ const Convert = (props) => {
   const [toParam, setToParam] = useState();
   const [amountParam, setAmountParam] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [historyView, setHistoryView] = useState('table');
-  const [responseIsLoading, setResponseIsLoading] = useState(false);
+  const [historyIsLoading, setHistoryIsLoading] = useState(false);
+  const [conversionIsLoading, setConversionIsLoading] = useState(false);
 
   const storeExchangeHistory = (from, to, amount) => {
     const exchange = [
@@ -53,7 +49,6 @@ const Convert = (props) => {
     [setSearchParams]
   );
 
-  //TODO: form validation
   const fetchExchangeHistory = (start, end, from, to) => {
     fetch(
       `https://api.exchangerate.host/timeseries?start_date=${start}&end_date=${end}&base=${from}&symbols=${to}`,
@@ -63,12 +58,15 @@ const Convert = (props) => {
     )
       .then((response) => response.json())
       .then((data) => {
+        setHistoryIsLoading(false);
         setRates(data.rates);
+      })
+      .catch((error) => {
+        setHistoryIsLoading(false);
       });
   };
 
   const convertCurrency = useCallback(
-    // TODO: add placeholder loading
     (amount, from, to) => {
       const fetchExchange = (amount, from, to) => {
         fetch(
@@ -79,8 +77,13 @@ const Convert = (props) => {
         )
           .then((response) => response.json())
           .then((data) => {
-            // TODO: show invalid result
-            const formattedResult = formatCurrency(data.result);
+            setConversionIsLoading(false);
+            let formattedResult;
+            if (data.result !== null) {
+              formattedResult = formatCurrency(data.result);
+            } else {
+              formattedResult = data.result;
+            }
             const rate = data.info.rate;
             const queryInfo = data.query;
             setResultValue(formattedResult);
@@ -92,10 +95,9 @@ const Convert = (props) => {
               queryInfo.amount
             );
             setQueryParams(queryInfo.from, queryInfo.to, queryInfo.amount);
-            setResponseIsLoading(false);
           })
           .catch((error) => {
-            setResponseIsLoading(false);
+            setConversionIsLoading(false);
           });
       };
       if (
@@ -103,9 +105,10 @@ const Convert = (props) => {
         to !== query?.to ||
         Number(amount) !== query?.amount
       ) {
-        setResponseIsLoading(true);
+        setConversionIsLoading(true);
         fetchExchange(amount, from, to);
         if (from !== query?.from || to !== query?.to) {
+          setHistoryIsLoading(true);
           fetchExchangeHistory(startDate, endDate, from, to);
         }
       }
@@ -116,6 +119,7 @@ const Convert = (props) => {
   const changeDuration = useCallback(
     (start, end) => {
       if (query && (start !== startDate || !startDate)) {
+        setHistoryIsLoading(true);
         fetchExchangeHistory(start, end, query.from, query.to);
       }
       setStartDate(start);
@@ -136,54 +140,27 @@ const Convert = (props) => {
     }
   }, [searchParams, startDate, endDate, convertCurrency]);
 
-  const changeConversionHistoryView = (view) => {
-    setHistoryView(view);
-  };
-
   return (
     <div>
       <h2 className="font-page-title color-default">I want to convert</h2>
-      <ExchangeForm
+      <Exchange
         submitForm={convertCurrency}
         fromCurrency={fromParam}
         toCurrency={toParam}
         amountCurrency={amountParam}
-        isLoading={responseIsLoading}
+        result={resultValue}
+        rate={rateValue}
+        exchangeResult={query}
+        isLoading={conversionIsLoading}
       />
-      {resultValue ? (
-        <ExchangeResult
-          amount={query.amount}
-          fromCurrency={query.from}
-          toCurrency={query.to}
-          result={resultValue}
-          rate={rateValue}
-        />
-      ) : (
-        <div className="Convert__empty-result"></div>
-      )}
       <hr className="mt-10" />
-      <div className="mt-5">
-        <p className="font-section-title color-default fw-700">
-          Exchange History
-        </p>
-        <HistoryFilters
-          changeHistoryDuration={changeDuration}
-          changeHistoryView={changeConversionHistoryView}
-        />
-        <div>
-          {rates && historyView === 'table' && (
-            <div className="mt-4 flex justify-between">
-              <HistoryTable rates={rates} currency={query?.to} />
-              <StatisticTable ratesList={rates} currency={query?.to} />
-            </div>
-          )}
-        </div>
-        {rates && historyView === 'chart' && (
-          <div className="mt-5">
-            <SparklinesChart values={rates} currency={query?.to} />
-          </div>
-        )}
-      </div>
+      <ExchangeHistory
+        changeHistoryDuration={changeDuration}
+        rates={rates}
+        isLoading={historyIsLoading}
+        exchangeResult={query}
+        result={resultValue}
+      />
     </div>
   );
 };

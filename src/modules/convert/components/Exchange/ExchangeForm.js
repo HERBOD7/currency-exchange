@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ReactComponent as ChangeIcon } from '../../../assets/icons/change.svg';
-import { ReactComponent as LoadingIcon } from '../../../assets/icons/loading.svg';
+import { ReactComponent as ChangeIcon } from '../../../../assets/icons/change.svg';
+import { ReactComponent as LoadingIcon } from '../../../../assets/icons/loading.svg';
 
 const ExchangeForm = (props) => {
   const { submitForm, fromCurrency, toCurrency, amountCurrency, isLoading } =
@@ -33,7 +33,6 @@ const ExchangeForm = (props) => {
         <label htmlFor="amount" className="color-header font-body-text">
           Amount
         </label>
-        {/* TODO: Create input and button components */}
         <input
           name="amount"
           id="amount"
