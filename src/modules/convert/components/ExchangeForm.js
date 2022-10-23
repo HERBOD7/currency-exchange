@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as ChangeIcon } from '../../../assets/icons/change.svg';
+import { ReactComponent as LoadingIcon } from '../../../assets/icons/loading.svg';
 
 const ExchangeForm = (props) => {
-  const { submitForm, fromCurrency, toCurrency, amountCurrency } = props;
+  const { submitForm, fromCurrency, toCurrency, amountCurrency, isLoading } =
+    props;
   const [amountValue, setAmountValue] = useState();
   const [fromValue, setFromValue] = useState();
   const [toValue, setToValue] = useState();
@@ -80,11 +82,11 @@ const ExchangeForm = (props) => {
       </div>
       <div className="flex items-end justify-center">
         <button
-          className="Convert__convert-btn px-3 py-2"
+          className="Convert__convert-btn px-3 py-2 flex items-center justify-center"
           type="submit"
           onClick={submitExchange}
         >
-          CONVERT
+          {isLoading ? <LoadingIcon /> : 'CONVERT'}
         </button>
       </div>
     </form>
